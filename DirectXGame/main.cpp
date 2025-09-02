@@ -1,5 +1,7 @@
 #include <Windows.h>
 #include <KamataEngine.h>
+#include"Scene/GamePlayScene.h"
+
 
 using namespace KamataEngine;
 
@@ -50,6 +52,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	primitiveDrawer = PrimitiveDrawer::GetInstance();
 	primitiveDrawer->Initialize();
+
+	//ゲームシーン初期化
+	std::unique_ptr<GamePlayScene> gamePlayScene_ = std::make_unique<GamePlayScene>();
+	gamePlayScene_->Initialize();
+
 #pragma endregion
 
 	// メインループ
@@ -68,16 +75,33 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		// ImGui受付終了
 		imguiManager->End();
 
+
+		//更新処理
+		gamePlayScene_->Update();
+
+
+
 		// 描画開始
 		dxCommon->PreDraw();
 		// 軸表示の描画
 		axisIndicator->Draw();
 		// プリミティブ描画のリセット
 		primitiveDrawer->Reset();
+		
+		//スプライトの描画前処理
+		Sprite::PreDraw();
+	
+		gamePlayScene_->Draw();
+
+		//スプライト描画後処理
+		Sprite::PostDraw();
+
 		// ImGui描画
 		imguiManager->Draw();
+		
 		// 描画終了
 		dxCommon->PostDraw();
+		
 	}
 
 	// 3Dモデル解放
@@ -85,6 +109,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	audio->Finalize();
 	// ImGui解放
 	imguiManager->Finalize();
+
 
 	// ゲームウィンドウの破棄
 	win->TerminateGameWindow();

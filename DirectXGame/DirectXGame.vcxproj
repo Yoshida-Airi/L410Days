@@ -154,6 +154,8 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject\Player\Player.cpp" />
+    <ClCompile Include="Scene\GamePlayScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -252,6 +254,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameObject\Player\Player.h" />
+    <ClInclude Include="Scene\GamePlayScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
