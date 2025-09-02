@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <KamataEngine.h>
-#include"GameObject/Player/Player.h"
+#include"Scene/GamePlayScene.h"
+
 
 using namespace KamataEngine;
 
@@ -52,10 +53,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	primitiveDrawer = PrimitiveDrawer::GetInstance();
 	primitiveDrawer->Initialize();
 
-	//ゲームオブジェクト初期化
-	Player* player_ = nullptr;
-	player_ = new Player();
-	player_->Initialize();
+	//ゲームシーン初期化
+	std::unique_ptr<GamePlayScene> gamePlayScene_ = std::make_unique<GamePlayScene>();
+	gamePlayScene_->Initialize();
 
 #pragma endregion
 
@@ -77,7 +77,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 
 		//更新処理
-		player_->Update();
+		gamePlayScene_->Update();
 
 
 
@@ -91,7 +91,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		//スプライトの描画前処理
 		Sprite::PreDraw();
 	
-		player_->Draw();
+		gamePlayScene_->Draw();
 
 		//スプライト描画後処理
 		Sprite::PostDraw();
@@ -110,8 +110,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	// ImGui解放
 	imguiManager->Finalize();
 
-	//開放処理
-	delete player_;
 
 	// ゲームウィンドウの破棄
 	win->TerminateGameWindow();

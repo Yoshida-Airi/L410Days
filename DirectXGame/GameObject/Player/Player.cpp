@@ -3,16 +3,16 @@
 Player::~Player() { delete sprite_; }
 
 void Player::Initialize() {
-	textureHandle_ = TextureManager::Load("white64x64.png");
-	sprite_ = Sprite::Create(textureHandle_, {status.pos});
+	textureHandle_ = KamataEngine::TextureManager::Load("white64x64.png");
+	sprite_ = KamataEngine::Sprite::Create(textureHandle_, {status.pos});
 }
 
 void Player::Update() {
-	Vector2 position = sprite_->GetPosition();
+	KamataEngine::Vector2 position = sprite_->GetPosition();
 
-	if (Input::GetInstance()->PushKey(DIK_RIGHT)) {
+	if (KamataEngine::Input::GetInstance()->PushKey(DIK_RIGHT)) {
 		position.x += status.speed;
-	} else if (Input::GetInstance()->PushKey(DIK_LEFT)) {
+	} else if (KamataEngine::Input::GetInstance()->PushKey(DIK_LEFT)) {
 		position.x -= status.speed;
 	}
 
