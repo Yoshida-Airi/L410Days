@@ -89,12 +89,12 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		// プリミティブ描画のリセット
 		primitiveDrawer->Reset();
 		
-		//スプライトの描画
+		//スプライトの描画前処理
 		Sprite::PreDraw();
-		
+	
 		player_->Draw();
 
-		
+		//スプライト描画後処理
 		Sprite::PostDraw();
 
 		// ImGui描画
@@ -110,6 +110,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	audio->Finalize();
 	// ImGui解放
 	imguiManager->Finalize();
+
+	//開放処理
+	delete player_;
 
 	// ゲームウィンドウの破棄
 	win->TerminateGameWindow();

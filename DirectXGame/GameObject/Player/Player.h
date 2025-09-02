@@ -15,6 +15,7 @@ struct Status
 class Player
 {
 public:
+	~Player();
 	void Initialize();
 	void Update();
 	void Draw();
@@ -23,6 +24,6 @@ private:
 
 	Sprite* sprite_ = nullptr;
 	uint32_t textureHandle_ = 0;
-	Status* status;
+	Status status;
 	
 };
