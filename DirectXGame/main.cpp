@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <KamataEngine.h>
+#include"GameObject/Player/Player.h"
 
 using namespace KamataEngine;
 
@@ -50,6 +51,12 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	primitiveDrawer = PrimitiveDrawer::GetInstance();
 	primitiveDrawer->Initialize();
+
+	//ゲームオブジェクト初期化
+	Player* player_ = nullptr;
+	player_ = new Player();
+	player_->Initialize();
+
 #pragma endregion
 
 	// メインループ
@@ -58,6 +65,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		if (win->ProcessMessage()) {
 			break;
 		}
+
+	
 
 		// ImGui受付開始
 		imguiManager->Begin();
@@ -68,16 +77,32 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		// ImGui受付終了
 		imguiManager->End();
 
+		player_->Update();
+
 		// 描画開始
 		dxCommon->PreDraw();
+		
+		
+	
 		// 軸表示の描画
 		axisIndicator->Draw();
 		// プリミティブ描画のリセット
 		primitiveDrawer->Reset();
+		
+		//スプライトの描画
+		Sprite::PreDraw();
+		
+		player_->Draw();
+
+		
+		Sprite::PostDraw();
+
 		// ImGui描画
 		imguiManager->Draw();
+		
 		// 描画終了
 		dxCommon->PostDraw();
+		
 	}
 
 	// 3Dモデル解放
