@@ -17,19 +17,20 @@ void Seesaw::Initialize() {
 
 void Seesaw::Update() {
 
+	//現在位置の取得
 	Vector2 leftPosition = leftBlock_->GetPosition();
 	Vector2 rightPosition = rightBlock_->GetPosition();
 
 	if (leftWeight_ > rightWeight_) {
-		// 左が重い
+		// 左が重いとき
 		leftPosition.y += deltaY_;
 		rightPosition.y -= deltaY_;
 	} else if (rightWeight_ > leftWeight_) {
-		// 右が重い
+		// 右が重いとき
 		leftPosition.y -= deltaY_;
 		rightPosition.y += deltaY_;
 	} else {
-		// 釣り合っている
+		// 釣り合っているとき
 		if (leftPosition.y > leftInitialY_) {
 			leftPosition.y -= deltaY_;
 		} else if (leftPosition.y < leftInitialY_) {
