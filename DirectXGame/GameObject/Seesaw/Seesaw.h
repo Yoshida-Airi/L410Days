@@ -24,7 +24,7 @@ private:
 	float rightInitialY_ = 0.0f;
 
 	// シーソーの動きの最大振幅を定義
-	const float kMaxAmplitude_ = 50.0f;
+	const float kMaxAmplitude_ = 30.0f;
 	float deltaY_ = 2.0f;	//変化量
 
 };

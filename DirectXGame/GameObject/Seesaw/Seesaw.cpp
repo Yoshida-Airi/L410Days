@@ -7,8 +7,11 @@ Seesaw::~Seesaw() {}
 
 void Seesaw::Initialize() {
 	seesawTexture_ = TextureManager::Load("white64x64.png");
-	leftBlock_ = std::unique_ptr<Sprite>(Sprite::Create(seesawTexture_, {10, 10}));
-	rightBlock_ = std::unique_ptr<Sprite>(Sprite::Create(seesawTexture_, {120, 10}));
+	leftBlock_ = std::unique_ptr<Sprite>(Sprite::Create(seesawTexture_, {10, 50}));
+	rightBlock_ = std::unique_ptr<Sprite>(Sprite::Create(seesawTexture_, {120, 50}));
+
+	leftBlock_->SetSize({64.0f, 30.0f});
+	rightBlock_->SetSize({64.0f, 30.0f});
 
 	//ブロックの初期位置の保存
 	leftInitialY_ = leftBlock_->GetPosition().y;
