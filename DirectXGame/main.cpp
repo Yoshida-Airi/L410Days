@@ -68,6 +68,10 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 		// ImGui受付開始
 		imguiManager->Begin();
+
+		//デバッグテキスト表示
+		gamePlayScene_->Debug();
+
 		// 入力関連の毎フレーム処理
 		input->Update();
 		// 軸表示の更新

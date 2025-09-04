@@ -1,5 +1,6 @@
 #pragma once  
 #include"../GameObject/Player/Player.h"
+#include"../GameObject/Seesaw/Seesaw.h"
 
 class GamePlayScene {
 public:
@@ -8,6 +9,9 @@ public:
 	void Update();
 	void Draw();
 
+	void Debug();
+
 private:
-	Player* player_ = nullptr;
+	std::unique_ptr<Player> player_ = nullptr;
+	std::unique_ptr<Seesaw> seesaw_ = nullptr;
 };
