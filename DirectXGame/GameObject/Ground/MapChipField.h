@@ -60,9 +60,9 @@ public:
 	uint32_t GetNumBlockVertical();
 	uint32_t GetNumBlockHorizontal();
 
-	//IndexSet GetMapChipIndexSetByPosition(const KamataEngine::Vector2& position);
+	IndexSet GetMapChipIndexSetByPosition(const KamataEngine::Vector2& position);
 
-	//Rect GetRectByIndex(uint32_t xIndex, uint32_t yIndex);
+	Rect GetRectByIndex(uint32_t xIndex, uint32_t yIndex);
 
 private:
 	//1ブロックのサイズ

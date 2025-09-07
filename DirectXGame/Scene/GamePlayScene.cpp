@@ -15,6 +15,7 @@ void GamePlayScene::Initialize() {
 	//プレイヤーの初期化
 	player_ =std::make_unique<Player>();
 	player_->Initialize();
+	player_->SetMapChipField(mapChipField_);
 
 	//シーソーの初期化
 	seesaw_ = std::make_unique<Seesaw>();
