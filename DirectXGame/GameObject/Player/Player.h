@@ -55,6 +55,12 @@ private:
 
 	float kBlank_ = 0.5f;
 
+	// アニメーションを管理する変数
+	float animationTimer_ = 0.0f;
+	int currentFrame_= 0;
+	const int frameCount_ = 4;         // アニメーションの総フレーム数
+	const float frameDuration_ = 0.1f; // 1フレームあたりの表示時間（秒）
+
 private:
 
 	//マップ衝突判定
@@ -64,6 +70,8 @@ private:
 	/*void CheckMapCollisionDown(CollisionMapInfo& info);
 	void CheckMapCollisionRight(CollisionMapInfo& info);
 	void CheckMapCollisionLeft(CollisionMapInfo& info);*/
+
+	void UpdateAnimation();
 
 	KamataEngine::Vector3 CornerPosition(const KamataEngine::Vector3& center, Corner corner);
 };

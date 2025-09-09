@@ -1,8 +1,7 @@
 #define NOMINMAX
 #include "Player.h"
-#include"../Ground/MapChipField.h"
-#include<algorithm>
-
+#include "../Ground/MapChipField.h"
+#include <algorithm>
 
 using namespace KamataEngine;
 
@@ -21,11 +20,14 @@ Player::~Player() {
 }
 
 void Player::Initialize() {
-	textureHandle_ = TextureManager::Load("white64x64.png");
+	textureHandle_ = TextureManager::Load("player_walk.png");
 	worldTransform_ = new WorldTransform();
 	worldTransform_->Initialize();
 	worldTransform_->translation_ = state_.pos;
 	sprite_ = Sprite::Create(textureHandle_, {worldTransform_->translation_.x, worldTransform_->translation_.y});
+	sprite_->SetAnchorPoint({0.5f, 0.5f});
+	sprite_->SetTextureRect({0.0f, 0.0f}, {64.0f, 64.0f});
+	sprite_->SetSize({64.0f, 64.0f});
 }
 
 void Player::Update() {
@@ -35,12 +37,15 @@ void Player::Update() {
 		// 移動
 		if (Input::GetInstance()->PushKey(DIK_RIGHT)) {
 			state_.velocity.x = 2.0f;
+			sprite_->SetIsFlipX(false);
+			UpdateAnimation();
 		} else if (Input::GetInstance()->PushKey(DIK_LEFT)) {
 			state_.velocity.x = -2.0f;
-		}
-		else
-		{
+			sprite_->SetIsFlipX(true);
+			UpdateAnimation();
+		} else {
 			state_.velocity.x = 0.0f;
+			sprite_->SetTextureRect({0.0f, 0.0f}, {64.0f, 64.0f});
 		}
 		// ジャンプ
 		if (Input::GetInstance()->TriggerKey(DIK_UP)) {
@@ -51,11 +56,11 @@ void Player::Update() {
 		state_.velocity.y = std::max(state_.velocity.y, -kLimitFallSpeed);
 	}
 
-	//衝突情報を初期化
+	// 衝突情報を初期化
 	CollisionMapInfo collisionMapInfo;
 	collisionMapInfo.move = {state_.velocity.x, state_.velocity.y, 0};
 	CheckMapCollision(collisionMapInfo);
-	
+
 	worldTransform_->translation_ = Add(worldTransform_->translation_, collisionMapInfo.move);
 
 	if (collisionMapInfo.ceiling) {
@@ -64,7 +69,7 @@ void Player::Update() {
 
 	bool landing = false;
 
-	//地面との当たり判定
+	// 地面との当たり判定
 	if (state_.velocity.y < 0) {
 		if (worldTransform_->translation_.y <= 100.0f) {
 			landing = true;
@@ -88,15 +93,11 @@ void Player::Update() {
 
 	float screenY = 720.0f - worldTransform_->translation_.y;
 	sprite_->SetPosition({worldTransform_->translation_.x, screenY});
-
-
 }
 
 void Player::Draw() { sprite_->Draw(); }
 
 void Player::CheckMapCollision(CollisionMapInfo& info) { CheckMapCollisionUp(info); };
-
-
 
 void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 
@@ -131,7 +132,7 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 		hit = true;
 	}
 
-	// ブロックにヒット？ 
+	// ブロックにヒット？
 	if (hit) {
 		// 現在座標が壁の外か判定
 		MapChipField::IndexSet indexSetNow;
@@ -146,6 +147,31 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 			info.ceiling = true;
 		}
 	}
+}
+
+void Player::UpdateAnimation() {
+	// 経過時間を加算
+	animationTimer_ += 0.01f;
+
+	// 設定した時間（frame_duration）が経過したら、次のフレームへ
+	if (animationTimer_ >= frameDuration_) {
+		// 次のフレームにインデックスを移動
+		currentFrame_++;
+
+		// 最後のフレームに達したら最初に戻す（ループ）
+		if (currentFrame_ >= frameCount_) {
+			currentFrame_ = 0;
+		}
+
+		// スプライトシートの表示位置を更新
+		// ここでは、1フレームのサイズが64x64pxで、横に4枚並んでいると仮定しています
+		sprite_->SetTextureRect({64.0f * currentFrame_, 0.0f}, {64.0f, 64.0f});
+
+		// タイマーをリセット
+		animationTimer_ = 0.0f;
+	}
+
+
 }
 
 Vector3 Player::CornerPosition(const Vector3& center, Corner corner) {
